@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MineWorld — Minecraft сервер</title>
+<style>
+:root{--green:#27e66b;--bg:#07111d;--panel:#0e1e2d;--muted:#b5c8db}
+*{box-sizing:border-box}
+body{margin:0;color:#f4f8ff;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:radial-gradient(ellipse at 50% 0%,#173e62 0,#07111d 55%);min-height:100vh}
+header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px clamp(16px,5vw,70px);background:#06101bee;border-bottom:1px solid #20384d}
+.logo{font-size:clamp(22px,3vw,30px);font-weight:900;letter-spacing:.5px}.logo span{color:var(--green)}
+nav{display:flex;gap:22px;color:var(--muted);font-size:14px}
+.status{color:var(--green);font-size:14px;white-space:nowrap}
+.hero{position:relative;overflow:hidden;text-align:center;padding:76px 18px 48px;background:linear-gradient(180deg,#0a2135cc,#07111d 92%),repeating-linear-gradient(135deg,#14324a 0 22px,#10283c 22px 44px)}
+.hero:before{content:"";position:absolute;inset:0;opacity:.18;background-image:linear-gradient(30deg,transparent 48%,#69a7d6 49%,transparent 51%),linear-gradient(150deg,transparent 48%,#69a7d6 49%,transparent 51%);background-size:80px 80px;pointer-events:none}
+.content{position:relative;max-width:850px;margin:auto}
+h1{font-size:clamp(34px,7vw,70px);line-height:1.03;margin:0 0 14px;font-weight:1000;text-shadow:0 5px 0 #152d43,0 10px 25px #0008}
+h1 span{color:var(--green);display:block}
+.subtitle{color:#d4e6f7;font-size:clamp(15px,2vw,19px);margin:0 auto 28px;max-width:650px}
+.serverbox{max-width:590px;margin:0 auto 16px;padding:14px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;text-align:left;background:#030a12dd;border:1px solid #168a57;border-radius:13px}
+.ipgroup{flex:1;min-width:210px}.ipgroup label{display:block;font-size:12px;color:#9bb3c9;margin-bottom:5px}
+.ipgroup input{width:100%;background:transparent;color:white;border:0;outline:0;font:600 16px system-ui}
+button,.play{border:0;border-radius:9px;background:linear-gradient(#23d65e,#079849);color:#fff;padding:13px 18px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 3px 0 #075c31;transition:transform .15s}
+button:hover,.play:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.play{display:inline-block;text-decoration:none;padding:16px 30px;font-size:19px;margin:2px 0 23px}
+.editions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.edition{background:#07121f;border:1px solid #304a60;border-radius:10px;padding:14px 20px;min-width:235px;text-align:left}
+.edition strong{display:block}.edition small{color:#9bb3c9}.edition.java{border-color:#d44d8b}.edition.bedrock{border-color:#16b8ff}
+.hint{color:#a9bfd2;font-size:13px;margin-top:15px}
+.features{max-width:1200px;margin:0 auto;padding:26px 18px 34px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.feature{padding:22px 14px;background:linear-gradient(145deg,#102234,#0a1724);border:1px solid #1c3448;border-radius:12px;text-align:center}
+.feature .emoji{font-size:30px}.feature h3{font-size:16px;margin:8px 0}.feature p{font-size:13px;color:var(--muted);line-height:1.5;margin:0}
+footer{border-top:1px solid #1a3042;padding:22px;text-align:center;color:#91a9bd;font-size:13px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0b8e49;color:white;padding:11px 18px;border-radius:9px;display:none;box-shadow:0 5px 25px #0008}
+@media(max-width:800px){nav{display:none}.features{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:440px){.features{grid-template-columns:1fr}.serverbox{padding:12px}.serverbox button{width:100%}.edition{min-width:100%}.hero{padding-top:52px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">⛏ Mine<span>World</span></div>
+  <nav><a style="color:inherit;text-decoration:none" href="#home">Главная</a><a style="color:inherit;text-decoration:none" href="#features">Возможности</a><a style="color:inherit;text-decoration:none" href="#connect">Как зайти</a></nav>
+  <div class="status">● Сервер Minecraft</div>
+</header>
+<main id="home">
+<section class="hero">
+ <div class="content">
+  <h1>ПРИВЕТСТВУЕМ <span>НА НАШЕМ САЙТЕ!</span></h1>
+  <p class="subtitle">Присоединяйся к нашему миру Minecraft! Играй с друзьями, строй, исследуй и выживай вместе с нами.</p>
+  <div class="serverbox" id="connect">
+   <div class="ipgroup"><label for="javaIP">IP для Java Edition</label><input id="javaIP" value="vanillaworld.net" aria-label="IP Java сервера"></div>
+   <button onclick="copyIP('javaIP')">▣ Скопировать IP</button>
+  </div>
+  <div class="serverbox">
+   <div class="ipgroup"><label for="bedrockIP">Адрес для Bedrock Edition</label><input id="bedrockIP" value="vanillaworld.net:25565" aria-label="IP Bedrock сервера"></div>
+   <button onclick="copyIP('bedrockIP')">▣ Скопировать IP</button>
+  </div>
+  <a class="play" href="#connect">▶ Как подключиться</a>
+  <div class="editions">
+   <div class="edition java"><strong>☕ Java Edition</strong><small>ПК и ноутбук</small></div>
+   <div class="edition bedrock"><strong>💎 Bedrock Edition</strong><small>Телефон, планшет, Windows и консоли</small></div>
+  </div>
+  <p class="hint">Java: vanillaworld.net · Bedrock: vanillaworld.net, порт 25565. Убедись, что сервер действительно настроен на этот порт для Bedrock.</p>
+ </div>
+</section>
+<section class="features" id="features">
+ <div class="feature"><div class="emoji">🌱</div><h3>Выживание</h3><p>Строй свой дом, развивайся и исследуй мир!</p></div>
+ <div class="feature"><div class="emoji">⚔️</div><h3>PvP</h3><p>Проверь свои навыки в честных сражениях.</p></div>
+ <div class="feature"><div class="emoji">👥</div><h3>Дружное сообщество</h3><p>Знакомься с игроками и играй вместе.</p></div>
+ <div class="feature"><div class="emoji">🎁</div><h3>События</h3><p>Добавь сюда информацию о конкурсах и ивентах.</p></div>
+ <div class="feature"><div class="emoji">🛡️</div><h3>Твой сервер</h3><p>Настрой описание под свой Minecraft-мир.</p></div>
+</section>
+</main>
+<footer>⛏ MineWorld · Играй. Общайся. Развивайся. <br>Java и Bedrock — адреса и порты могут отличаться.</footer>
+<div id="toast" role="status"></div>
+<script>
+async function copyIP(id){
+ const field=document.getElementById(id); const value=field.value.trim();
+ if(!value || value.includes('ВСТАВЬ_IP')){field.focus();field.select();showToast('Сначала впиши IP своего сервера в поле.');return;}
+ try{await navigator.clipboard.writeText(value);showToast('IP скопирован!');}
+ catch(e){field.focus();field.select();try{document.execCommand('copy');showToast('IP скопирован!');}catch(_){showToast('Выдели IP и скопируй вручную.');}}
+}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2600);}
+</script>
+</body>
+</html>
